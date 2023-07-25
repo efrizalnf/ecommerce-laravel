@@ -124,4 +124,16 @@ class PaymentControllerApi extends Controller
         }
         return response()->json(['message' => 'Payment failed'], 403);
     }
+
+    public function payment_check(Request $request){
+        try {
+            $order = Order::where(['id' => $request->order_id])->first();
+            return response()->json($order);
+        } catch (\Exception $e) {
+            return response()->json([
+                'errors' => ['code' => 'order_id', 'message' => translate('messages.not_found')]
+            ], 404);
+        }
+        
+    }
 }

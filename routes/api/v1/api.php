@@ -213,6 +213,7 @@ Route::group(['namespace' => 'Api\V1', 'middleware'=>'localization'], function (
     Route::group(['prefix' => 'payment'], function () {
         Route::post('payment-order', 'PaymentControllerApi@payment');
         Route::post('payment-callback', 'PaymentControllerApi@payment_callback');
+        Route::post('payment-check', 'PaymentControllerApi@payment_check');
     });
     
     Route::group(['middleware'=>['module-check']], function(){
