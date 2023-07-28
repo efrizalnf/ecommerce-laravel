@@ -19,6 +19,8 @@ class BusinessSettingsController extends Controller
             // 'address' => 'required',
             'contact_number' => 'required',
             'delivery' => 'required|boolean',
+            // adding self delivery system
+            'self_delivery_system' => 'required|boolean',
             'prescription_order' => 'required|boolean',
             'take_away' => 'required|boolean',
             'schedule_order' => 'required|boolean',
@@ -72,6 +74,8 @@ class BusinessSettingsController extends Controller
         }
 
         $store->delivery = $request->delivery;
+          // adding self delivery system
+        $store->self_delivery_system = $request->self_delivery_system;
         $store->prescription_order = $request->prescription_order;
         $store->take_away = $request->take_away;
         $store->schedule_order = $request->schedule_order;

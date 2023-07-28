@@ -178,7 +178,7 @@ class DeliverymanController extends Controller
         }
         $dm=DeliveryMan::where(['auth_token' => $request['token']])->first();
         $order = Order::where('id', $request['order_id'])
-        // ->whereIn('order_status', ['pending', 'confirmed'])
+        ->whereIn('order_status', ['pending', 'confirmed'])
         ->whereNull('delivery_man_id')
         ->dmOrder()
         ->first();
@@ -190,7 +190,9 @@ class DeliverymanController extends Controller
                 ]
             ], 404);
         }
-        if($dm->current_orders >= config('dm_maximum_orders'))
+        //Changes driver maxmum order
+        // if ($dm->current_orders >= config('dm_maximum_orders'))
+        if($dm->current_orders >= 2)
         {
             return response()->json([
                 'errors'=>[

@@ -511,6 +511,7 @@ class OrderController extends Controller
                 ]
             ], 400);
         }
+        //TODO Fix
         if ($deliveryman) {
             if ($deliveryman->current_orders >= config('dm_maximum_orders')) {
                 return response()->json([

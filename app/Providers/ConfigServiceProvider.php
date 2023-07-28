@@ -175,7 +175,8 @@ class ConfigServiceProvider extends ServiceProvider
             if ($dm_maximum_orders) {
                 Config::set('dm_maximum_orders', $dm_maximum_orders->value);
             } else {
-                Config::set('dm_maximum_orders', 1);
+                // config max order default from 1 to 10
+                Config::set('dm_maximum_orders', 10);
             }
 
             $order_confirmation_model = BusinessSetting::where(['key' => 'order_confirmation_model'])->first();

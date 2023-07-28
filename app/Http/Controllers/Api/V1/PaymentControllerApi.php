@@ -8,6 +8,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\RateLimiter;
 
 class PaymentControllerApi extends Controller
 {
@@ -85,11 +86,13 @@ class PaymentControllerApi extends Controller
         $order->save();
         DB::commit();
 
+        
         //  Order::where(['id' => $external_id, 'user_id' => $user_id])->toBase()->update(['payment_status' => $payment_status]);
 
         // var_dump($track);
         // return response()->json(['message' => 'Payment succeeded'], 200);
-        return response()->json($data_payment);
+        return response()->json($data_payment, 200);
+        
     }
 
     public function success()
@@ -128,12 +131,22 @@ class PaymentControllerApi extends Controller
     public function payment_check(Request $request){
         try {
             $order = Order::where(['id' => $request->order_id])->first();
+            // $executed = RateLimiter::attempt(
+            //     response()->json($order),
+            //     5,
+            //     5,
+            // );
+
+            // if (!$executed) {
+            //     return response()->json(['message' => 'To many request'], 402);
+            // }
             return response()->json($order);
         } catch (\Exception $e) {
             return response()->json([
                 'errors' => ['code' => 'order_id', 'message' => translate('messages.not_found')]
             ], 404);
         }
+        // https://laravel.com/docs/10.x/rate-limiting
         
     }
 }
