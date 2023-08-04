@@ -1216,6 +1216,19 @@ class Helpers
 
         try {
 
+            if (($order->payment_method == 'digital_payment' && $order->order_status == 'pending') || ($order->payment_method == 'digital_payment' && $order->payment_status == 'paid')) {
+                $data = [
+                    'title' => translate('messages.order_push_title'),
+                    'description' => translate('messages.paid'),
+                    'order_id' => $order->id,
+                    'image' => '',
+                    'module_id' => $order->module_id,
+                    'order_type' => $order->order_type,
+                    'zone_id' => $order->zone_id,
+                    'type' => 'new_order',
+                ];
+                self::send_push_notif_to_topic($data, 'admin_message', 'order_request', url('/') . '/admin/order/list/all');
+            }
             if(($order->payment_method == 'cash_on_delivery' && $order->order_status == 'pending' )||($order->payment_method != 'cash_on_delivery' && $order->order_status == 'confirmed' )){
                 $data = [
                     'title' => translate('messages.order_push_title'),

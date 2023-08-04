@@ -85,7 +85,10 @@ class PaymentControllerApi extends Controller
         DB::beginTransaction();
         $order->save();
         DB::commit();
-
+        $order->order_status = 'pending';
+        if ($order->payment_status == 'paid') {
+            Helpers::send_order_notification($order);
+        }
         
         //  Order::where(['id' => $external_id, 'user_id' => $user_id])->toBase()->update(['payment_status' => $payment_status]);
 
